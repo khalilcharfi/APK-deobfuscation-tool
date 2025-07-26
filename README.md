@@ -261,3 +261,24 @@ For issues and questions:
 ---
 
 **Note**: This tool is designed for legitimate security research and educational purposes. Always ensure you have proper authorization before analyzing any APK files. 
+
+## Acknowledgments
+
+This project would not be possible without the incredible open-source community. We would like to express our deepest gratitude to the authors and every contributor of the following projects, which are automatically downloaded or integrated into the deobfuscation pipeline:
+
+- [deoptfuscator](https://github.com/Gyoonus/deoptfuscator) — by **Gyoonus** and contributors
+- [SmaliEmu](https://github.com/HamsterHuey/SmaliEmu) — by **HamsterHuey** and contributors
+- [Obfu-DE-Scate](https://github.com/user1342/Obfu-DE-Scate) — by **user1342** and contributors
+- [simplify](https://github.com/CalebFenton/simplify) — by **Caleb Fenton** and contributors
+- [xapk-to-apk](https://github.com/LuigiVampa92/xapk-to-apk) — by **LuigiVampa92** and contributors
+- [cfjs](https://github.com/cg10036/cfjs) — by **cg10036** and contributors
+- [js-deobfuscator-tool](https://github.com/mrgrassho/js-deobfuscator-tool) — by **mrgrassho** and contributors
+- [deguard](https://github.com/GraphXAI/deguard) — by **GraphXAI** and contributors
+- [dex-translator](https://github.com/Col-E/dex-translator) — by **Col-E** and contributors
+- [merge-apks](https://github.com/LuigiVampa92/merge-apks) — by **LuigiVampa92** and contributors
+- [AndroidAppRE](https://github.com/maddiestone/AndroidAppRE) — by **maddiestone** and contributors
+- [BundleDecompiler](https://github.com/TamilanPeriyasamy/BundleDecompiler) — by **TamilanPeriyasamy** and contributors
+- [reverse_flutter](https://github.com/Neoxs/reverse_flutter) — by **Neoxs** and contributors
+- [MobSF](https://github.com/MobSF/Mobile-Security-Framework-MobSF) — by the **MobSF team** and contributors
+
+Your hard work and dedication to open-source software make projects like this possible. Thank you! 
