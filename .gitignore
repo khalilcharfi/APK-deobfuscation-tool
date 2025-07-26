@@ -1,0 +1,50 @@
+# macOS
+.DS_Store
+
+# IDE / Editor settings
+.vscode/
+.idea/
+*.iml
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Logs and debug files
+*.log
+*.tmp
+
+# Byte-compiled / dynamic libraries
+*.so
+*.dylib
+*.dll
+*.pyd
+
+# Archives
+*.zip
+*.tar.gz
+*.tgz
+*.7z
+
+# Java / Android build artifacts
+.gradle/
+build/
+*.apk
+*.dex
+*.class
+*.jar
+
+# Node.js
+node_modules/
+
+# Swap files
+*.swp
+*.swo
+
+# Project-specific large binary directories to exclude
+tools/deoptfuscator/android/bin/
+tools/deoptfuscator/android/lib/
+tools/deoptfuscator/android/framework/ 
