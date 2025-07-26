@@ -1,0 +1,414 @@
+# Deobfuscation Pipeline Configuration
+# This file configures the production-ready deobfuscation script
+
+# ============================================================================
+# SCRIPT CONFIGURATION
+# ============================================================================
+
+script:
+  name: "deobfuscate.sh"
+  version: "2.0.0"
+  author: "Production-Ready Deobfuscation Pipeline"
+  
+  # Execution settings
+  max_retry: 3
+  timeout_short: 300    # 5 minutes for short operations
+  timeout_long: 1800    # 30 minutes for long operations
+  parallel_jobs: 4      # Number of parallel jobs
+  
+  # Java settings
+  java_heap_size: "4G"
+  java_opts: "-XX:+UseG1GC -XX:MaxGCPauseMillis=200"
+  
+  # Logging
+  log_level: "INFO"     # DEBUG, INFO, WARN, ERROR
+  log_file: "build/deobf_log.txt"
+  trace_file: "build/obf_trace.json"
+  
+  # Cleanup
+  keep_temp_files: false
+  cleanup_on_exit: true
+
+# ============================================================================
+# INPUT FORMATS SUPPORT
+# ============================================================================
+
+input_formats:
+  apk:
+    enabled: true
+    extract_metadata: true
+    validate_signature: true
+    
+  xapk:
+    enabled: true
+    extract_obb: true
+    merge_splits: true
+    converter_priority: ["xapk-to-apk", "manual"]
+    
+  apks:
+    enabled: true
+    merge_splits: true
+    bundletool_version: "1.15.0"
+    bundletool_url: "https://github.com/google/bundletool/releases/download/1.15.0/bundletool-all-1.15.0.jar"
+    
+  aab:
+    enabled: true
+    bundletool_version: "1.15.0"
+    bundletool_url: "https://github.com/google/bundletool/releases/download/1.15.0/bundletool-all-1.15.0.jar"
+
+# ============================================================================
+# TOOL CONFIGURATION
+# ============================================================================
+
+tools:
+  # Decompilation tools
+  jadx:
+    enabled: true
+    version: "1.4.7"
+    options:
+      - "--deobf"
+      - "--show-bad-code"
+      - "--no-imports"
+      - "--no-debug-info"
+    output_dir: "build/jadx"
+    
+  apktool:
+    enabled: true
+    version: "2.9.0"
+    options:
+      - "--no-crunch"
+      - "--no-assets"
+    output_dir: "build/apktool"
+    
+  cfr:
+    enabled: true
+    version: "0.152"
+    jar_url: "https://www.benf.org/other/cfr/cfr-0.152.jar"
+    options:
+      - "--outputdir"
+      - "build/cfr"
+    output_dir: "build/cfr"
+    
+  # Deobfuscation tools
+  deoptfuscator:
+    enabled: true
+    repo_url: "https://github.com/Gyoonus/deoptfuscator.git"
+    fallback_url: "https://raw.githubusercontent.com/Gyoonus/deoptfuscator/main/deoptfuscator.py"
+    options:
+      - "-i"
+      - "-o"
+    output_dir: "build/deopt"
+    
+  SmaliEmu:
+    enabled: true
+    repo_url: "https://github.com/HamsterHuey/SmaliEmu.git"
+    options:
+      - "-i"
+      - "-o"
+    output_dir: "build/smaliemu"
+    
+  simplify:
+    enabled: true
+    repo_url: "https://github.com/CalebFenton/simplify.git"
+    jar_path: "tools/simplify/simplify/build/libs/simplify.jar"
+    options:
+      - "-i"
+      - "-o"
+    output_dir: "build/simplify"
+    
+  # JavaScript deobfuscation
+  cfjs:
+    enabled: true
+    repo_url: "https://github.com/cg10036/cfjs.git"
+    options:
+      - "-i"
+      - "-o"
+    output_dir: "build/cfjs"
+    
+  js_deobfuscator:
+    enabled: true
+    repo_url: "https://github.com/mrgrassho/js-deobfuscator-tool.git"
+    options:
+      - "-i"
+      - "-o"
+    output_dir: "build/js_deobf"
+    
+  de4js:
+    enabled: true
+    repo_url: "https://github.com/lelinhtinh/de4js.git"
+    options:
+      - "-i"
+      - "-o"
+    output_dir: "build/de4js"
+    
+  # Native analysis
+  radare2:
+    enabled: true
+    options:
+      - "-A"
+      - "-w"
+    output_dir: "build/radare2"
+    
+  ghidra:
+    enabled: true
+    headless: true
+    project_dir: "build/ghidra_projects"
+    script_dir: "tools/ghidra_scripts"
+    
+  # Dynamic analysis
+  frida:
+    enabled: true
+    options:
+      - "-U"
+      - "-f"
+    script_dir: "tools/frida_scripts"
+    output_dir: "build/frida"
+    
+  objection:
+    enabled: true
+    options:
+      - "-g"
+    script_dir: "tools/objection_scripts"
+    output_dir: "build/objection"
+    
+  # Security analysis
+  quark_engine:
+    enabled: true
+    repo_url: "https://github.com/quark-engine/quark-engine.git"
+    options:
+      - "-i"
+      - "-o"
+    output_dir: "build/quark"
+    
+  mobsf:
+    enabled: false
+    url: ""
+    api_key: ""
+    scan_type: "apk"
+    output_dir: "build/mobsf"
+
+# ============================================================================
+# TEMPLATES CONFIGURATION
+# ============================================================================
+
+frida_templates:
+  basic:
+    enabled: true
+    file: "templates/frida_basic.js"
+    description: "Basic Frida hooks for common APIs"
+    
+  advanced:
+    enabled: true
+    file: "templates/frida_advanced.js"
+    description: "Advanced Frida hooks with encryption bypass"
+    
+  custom:
+    enabled: false
+    file: "templates/frida_custom.js"
+    description: "Custom Frida hooks for specific functionality"
+
+objection_templates:
+  basic:
+    enabled: true
+    file: "templates/objection_basic.txt"
+    description: "Basic Objection commands for runtime analysis"
+    
+  advanced:
+    enabled: true
+    file: "templates/objection_advanced.txt"
+    description: "Advanced Objection commands with bypass techniques"
+
+report_templates:
+  markdown:
+    enabled: true
+    file: "templates/report_markdown.md"
+    output: "docs/report.md"
+    
+  pdf:
+    enabled: true
+    file: "templates/pdf_template.tex"
+    output: "docs/report.pdf"
+    requires: ["pandoc", "latex"]
+
+# ============================================================================
+# PROGRESS BAR CONFIGURATION
+# ============================================================================
+
+progress:
+  enabled: true
+  width: 50
+  fill_char: "="
+  empty_char: "-"
+  show_percentage: true
+  show_eta: true
+
+# ============================================================================
+# SIGNING CONFIGURATION
+# ============================================================================
+
+signing:
+  enabled: true
+  auto_sign: true
+  properties_file: "xapktoapk.sign.properties"
+  
+  # Signing options
+  keystore:
+    path: ""
+    password: ""
+    alias: ""
+    key_password: ""
+    
+  # Alternative signing tools
+  uber_apk_signer:
+    enabled: true
+    jar_path: "~/bin/uber-apk-signer.jar"
+    options:
+      - "-a"
+      - "--overwrite"
+      
+  apksigner:
+    enabled: false
+    options:
+      - "--ks"
+      - "--ks-pass"
+
+# ============================================================================
+# OUTPUT CONFIGURATION
+# ============================================================================
+
+output:
+  base_dir: "build"
+  structure:
+    - "logs/"
+    - "reports/"
+    - "temp/"
+    - "tools/"
+    - "deobfuscated/"
+    - "analysis/"
+    
+  # File naming patterns
+  naming:
+    apk_suffix: "_deobfuscated"
+    report_suffix: "_report"
+    timestamp_format: "%Y%m%d_%H%M%S"
+    
+  # Compression
+  compress_output: false
+  compression_format: "tar.gz"
+  
+  # Cleanup
+  cleanup_temp: true
+  cleanup_logs: false
+  max_log_age: "30d"
+
+# ============================================================================
+# SECURITY SETTINGS
+# ============================================================================
+
+security:
+  # Input validation
+  validate_paths: true
+  sanitize_inputs: true
+  max_file_size: "1GB"
+  
+  # Network security
+  verify_ssl: true
+  timeout_connect: 30
+  timeout_read: 300
+  
+  # File permissions
+  default_permissions: "644"
+  executable_permissions: "755"
+  
+  # Sandboxing
+  sandbox_enabled: false
+  sandbox_dir: "/tmp/apk_sandbox"
+
+# ============================================================================
+# DEBUGGING AND MONITORING
+# ============================================================================
+
+debugging:
+  # Debug mode
+  debug_enabled: false
+  trace_commands: false
+  verbose_output: false
+  
+  # Performance monitoring
+  profile_enabled: false
+  profile_file: "build/profile.json"
+  
+  # Memory monitoring
+  memory_tracking: false
+  memory_limit: "8G"
+  
+  # Error reporting
+  error_reporting: true
+  error_log_file: "build/errors.log"
+  stack_trace: true
+
+# ============================================================================
+# INTEGRATION SETTINGS
+# ============================================================================
+
+integrations:
+  # CI/CD integration
+  ci_mode: false
+  ci_output_format: "json"
+  
+  # API integrations
+  mobsf_api:
+    enabled: false
+    url: ""
+    api_key: ""
+    timeout: 300
+    
+  # Notification settings
+  notifications:
+    enabled: false
+    email:
+      smtp_server: ""
+      smtp_port: 587
+      username: ""
+      password: ""
+      recipients: []
+    slack:
+      webhook_url: ""
+      channel: ""
+      
+  # Backup settings
+  backup:
+    enabled: false
+    backup_dir: ""
+    backup_retention: "7d"
+    backup_compression: true
+
+# ============================================================================
+# ADVANCED SETTINGS
+# ============================================================================
+
+advanced:
+  # Parallel processing
+  max_parallel_jobs: 4
+  parallel_timeout: 1800
+  
+  # Resource limits
+  cpu_limit: "100%"
+  memory_limit: "8G"
+  disk_limit: "10G"
+  
+  # Caching
+  cache_enabled: true
+  cache_dir: "build/cache"
+  cache_ttl: "24h"
+  
+  # Optimization
+  optimize_memory: true
+  optimize_cpu: true
+  skip_optional_steps: false
+  
+  # Experimental features
+  experimental_features:
+    gpu_acceleration: false
+    machine_learning: false
+    cloud_processing: false 

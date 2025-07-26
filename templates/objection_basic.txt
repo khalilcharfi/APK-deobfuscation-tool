@@ -1,0 +1,32 @@
+# Basic Objection Script Template
+# Description: Basic runtime analysis
+# Author: Enhanced APK Deobfuscator
+# Version: 1.0
+
+# List all classes
+android hooking list classes
+
+# List methods for common security classes
+android hooking list class_methods com.scottyab.rootbeer.RootBeer
+android hooking list class_methods javax.net.ssl.SSLContext
+android hooking list class_methods android.os.Debug
+
+# Hook common security methods
+android hooking watch class_method com.scottyab.rootbeer.RootBeer.isRooted --dump-args --dump-backtrace --dump-return
+android hooking watch class_method javax.net.ssl.SSLContext.init --dump-args --dump-backtrace --dump-return
+android hooking watch class_method android.os.Debug.isDebuggerConnected --dump-args --dump-backtrace --dump-return
+
+# Disable security features
+android sslpinning disable
+android root disable
+
+# Hook system calls
+android hooking watch class_method java.lang.Runtime.exec --dump-args --dump-backtrace --dump-return
+android hooking watch class_method java.lang.System.exit --dump-args --dump-backtrace --dump-return
+
+# Monitor file operations
+android hooking watch class_method java.io.FileInputStream.<init> --dump-args --dump-backtrace
+android hooking watch class_method java.io.FileOutputStream.<init> --dump-args --dump-backtrace
+
+# Monitor network operations
+android hooking watch class_method okhttp3.OkHttpClient.newCall --dump-args --dump-backtrace --dump-return 

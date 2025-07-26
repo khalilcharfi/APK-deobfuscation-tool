@@ -1,0 +1,137 @@
+# Advanced Objection Script Template
+# Description: Comprehensive runtime analysis
+# Author: Enhanced APK Deobfuscator
+# Version: 1.0
+
+# ============================================================================
+# INITIAL SETUP
+# ============================================================================
+
+# List all classes for analysis
+android hooking list classes
+
+# ============================================================================
+# SECURITY BYPASS
+# ============================================================================
+
+# Disable security features
+android sslpinning disable
+android root disable
+android hooking disable
+
+# ============================================================================
+# SYSTEM CALL MONITORING
+# ============================================================================
+
+# Hook system calls
+android hooking watch class_method java.lang.Runtime.exec --dump-args --dump-backtrace --dump-return
+android hooking watch class_method java.lang.System.exit --dump-args --dump-backtrace --dump-return
+android hooking watch class_method java.lang.ProcessBuilder.start --dump-args --dump-backtrace --dump-return
+
+# ============================================================================
+# FILE OPERATIONS MONITORING
+# ============================================================================
+
+# Monitor file operations
+android hooking watch class_method java.io.FileInputStream.<init> --dump-args --dump-backtrace
+android hooking watch class_method java.io.FileOutputStream.<init> --dump-args --dump-backtrace
+android hooking watch class_method java.io.FileReader.<init> --dump-args --dump-backtrace
+android hooking watch class_method java.io.FileWriter.<init> --dump-args --dump-backtrace
+
+# ============================================================================
+# NETWORK OPERATIONS MONITORING
+# ============================================================================
+
+# Monitor network operations
+android hooking watch class_method okhttp3.OkHttpClient.newCall --dump-args --dump-backtrace --dump-return
+android hooking watch class_method java.net.URL.openConnection --dump-args --dump-backtrace --dump-return
+android hooking watch class_method java.net.Socket.<init> --dump-args --dump-backtrace
+
+# ============================================================================
+# DATABASE OPERATIONS MONITORING
+# ============================================================================
+
+# Monitor database operations
+android hooking watch class_method android.database.sqlite.SQLiteDatabase.rawQuery --dump-args --dump-backtrace --dump-return
+android hooking watch class_method android.database.sqlite.SQLiteDatabase.execSQL --dump-args --dump-backtrace --dump-return
+
+# ============================================================================
+# SHARED PREFERENCES MONITORING
+# ============================================================================
+
+# Monitor shared preferences
+android hooking watch class_method android.content.SharedPreferences.getString --dump-args --dump-backtrace --dump-return
+android hooking watch class_method android.content.SharedPreferences.putString --dump-args --dump-backtrace --dump-return
+
+# ============================================================================
+# CRYPTOGRAPHY MONITORING
+# ============================================================================
+
+# Monitor cryptography operations
+android hooking watch class_method javax.crypto.Cipher.doFinal --dump-args --dump-backtrace --dump-return
+android hooking watch class_method java.security.MessageDigest.digest --dump-args --dump-backtrace --dump-return
+
+# ============================================================================
+# WEBVIEW MONITORING
+# ============================================================================
+
+# Monitor WebView operations
+android hooking watch class_method android.webkit.WebView.loadUrl --dump-args --dump-backtrace
+android hooking watch class_method android.webkit.WebView.evaluateJavascript --dump-args --dump-backtrace --dump-return
+
+# ============================================================================
+# INTENT MONITORING
+# ============================================================================
+
+# Monitor intent operations
+android hooking watch class_method android.content.Context.startActivity --dump-args --dump-backtrace
+android hooking watch class_method android.content.Context.startService --dump-args --dump-backtrace
+android hooking watch class_method android.content.Context.sendBroadcast --dump-args --dump-backtrace
+
+# ============================================================================
+# PERMISSION MONITORING
+# ============================================================================
+
+# Monitor permission checks
+android hooking watch class_method android.content.Context.checkPermission --dump-args --dump-backtrace --dump-return
+android hooking watch class_method android.content.pm.PackageManager.checkPermission --dump-args --dump-backtrace --dump-return
+
+# ============================================================================
+# NATIVE LIBRARY MONITORING
+# ============================================================================
+
+# Monitor native library loading
+android hooking watch class_method java.lang.System.load --dump-args --dump-backtrace
+android hooking watch class_method java.lang.System.loadLibrary --dump-args --dump-backtrace
+
+# ============================================================================
+# CUSTOM CLASS MONITORING
+# ============================================================================
+
+# Add your custom class monitoring here
+# Example:
+# android hooking watch class_method com.example.TargetClass.targetMethod --dump-args --dump-backtrace --dump-return
+
+# ============================================================================
+# MEMORY MONITORING
+# ============================================================================
+
+# Monitor memory operations
+android hooking watch class_method java.lang.Runtime.gc --dump-args --dump-backtrace
+android hooking watch class_method java.lang.System.gc --dump-args --dump-backtrace
+
+# ============================================================================
+# THREAD MONITORING
+# ============================================================================
+
+# Monitor thread operations
+android hooking watch class_method java.lang.Thread.start --dump-args --dump-backtrace
+android hooking watch class_method java.lang.Thread.run --dump-args --dump-backtrace
+
+# ============================================================================
+# REFLECTION MONITORING
+# ============================================================================
+
+# Monitor reflection operations
+android hooking watch class_method java.lang.Class.forName --dump-args --dump-backtrace --dump-return
+android hooking watch class_method java.lang.reflect.Method.invoke --dump-args --dump-backtrace --dump-return 

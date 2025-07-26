@@ -1,0 +1,385 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{float}
+
+% Page geometry
+\geometry{margin=1in}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    pdftitle={APK Analysis Report},
+    pdfauthor={Enhanced APK Deobfuscator},
+    pdfsubject={Security Analysis Report}
+}
+
+% Header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{APK Analysis Report}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Title formatting
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+
+% Code listing setup
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    backgroundcolor=\color{gray!10}
+}
+
+% Custom colors
+\definecolor{critical}{RGB}{220,53,69}
+\definecolor{high}{RGB}{255,193,7}
+\definecolor{medium}{RGB}{40,167,69}
+\definecolor{low}{RGB}{108,117,125}
+
+\begin{document}
+
+% Title page
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    {\Huge\bfseries APK Analysis Report\par}
+    \vspace{1cm}
+    
+    {\Large Enhanced APK Deobfuscator v3.2.0\par}
+    \vspace{2cm}
+    
+    \begin{tabular}{ll}
+        \textbf{Analysis Date:} & {{analysis_date}} \\
+        \textbf{Analyst:} & {{analyst_name}} \\
+        \textbf{Client:} & {{client_name}} \\
+        \textbf{Project ID:} & {{project_id}} \\
+        \textbf{Report Version:} & {{report_version}} \\
+    \end{tabular}
+    
+    \vfill
+    
+    {\large \today\par}
+\end{titlepage}
+
+% Table of contents
+\tableofcontents
+\newpage
+
+% Executive Summary
+\section{Executive Summary}
+
+\subsection{Overview}
+This report presents the results of a comprehensive security analysis of the Android application \texttt{{{apk_filename}}}. The analysis was conducted using advanced static and dynamic analysis techniques to identify potential security vulnerabilities, obfuscation techniques, and malicious behaviors.
+
+\subsection{Key Findings}
+{{#if security_findings}}
+\begin{itemize}
+    \item \textbf{Critical Issues:} {{critical_count}}
+    \item \textbf{High Severity:} {{high_count}}
+    \item \textbf{Medium Severity:} {{medium_count}}
+    \item \textbf{Low Severity:} {{low_count}}
+    \item \textbf{Informational:} {{info_count}}
+\end{itemize}
+{{else}}
+No significant security issues were identified during the analysis.
+{{/if}}
+
+\subsection{Risk Assessment}
+{{risk_assessment}}
+
+% APK Metadata
+\section{APK Metadata}
+
+\subsection{Basic Information}
+\begin{itemize}
+    \item \textbf{Package Name:} {{package_name}}
+    \item \textbf{Version Name:} {{version_name}}
+    \item \textbf{Version Code:} {{version_code}}
+    \item \textbf{Target SDK:} {{target_sdk}}
+    \item \textbf{Min SDK:} {{min_sdk}}
+    \item \textbf{File Size:} {{file_size}}
+    \item \textbf{DEX Files:} {{dex_count}}
+\end{itemize}
+
+\subsection{Permissions}
+{{#each permissions}}
+\begin{itemize}
+    \item \textbf{{{@key}}:} {{this}}
+\end{itemize}
+{{/each}}
+
+\subsection{Components}
+\subsubsection{Activities}
+{{#each activities}}
+\begin{itemize}
+    \item \texttt{{{this}}}
+\end{itemize}
+{{/each}}
+
+\subsubsection{Services}
+{{#each services}}
+\begin{itemize}
+    \item \texttt{{{this}}}
+\end{itemize}
+{{/each}}
+
+\subsubsection{Receivers}
+{{#each receivers}}
+\begin{itemize}
+    \item \texttt{{{this}}}
+\end{itemize}
+{{/each}}
+
+\subsubsection{Providers}
+{{#each providers}}
+\begin{itemize}
+    \item \texttt{{{this}}}
+\end{itemize}
+{{/each}}
+
+% Static Analysis
+\section{Static Analysis}
+
+\subsection{Deobfuscation Results}
+{{#if deobfuscation_results}}
+The application was found to use the following obfuscation techniques:
+{{#each deobfuscation_results}}
+\begin{itemize}
+    \item \textbf{{{@key}}:} {{this}}
+\end{itemize}
+{{/each}}
+{{else}}
+No significant obfuscation techniques were detected.
+{{/if}}
+
+\subsection{String Analysis}
+{{#if string_analysis}}
+\textbf{Suspicious Strings Found:}
+{{#each string_analysis}}
+\begin{itemize}
+    \item \texttt{{{this}}}
+\end{itemize}
+{{/each}}
+{{else}}
+No suspicious strings were identified.
+{{/if}}
+
+\subsection{Native Library Analysis}
+{{#if native_libraries}}
+\textbf{Native Libraries:}
+{{#each native_libraries}}
+\begin{itemize}
+    \item \textbf{{{@key}}:} {{this}}
+\end{itemize}
+{{/each}}
+{{else}}
+No native libraries were found.
+{{/if}}
+
+% Dynamic Analysis
+\section{Dynamic Analysis}
+
+\subsection{Runtime Behavior}
+{{#if runtime_behavior}}
+\textbf{Observed Behaviors:}
+{{#each runtime_behavior}}
+\begin{itemize}
+    \item \textbf{{{@key}}:} {{this}}
+\end{itemize}
+{{/each}}
+{{else}}
+No significant runtime behaviors were observed.
+{{/if}}
+
+\subsection{Network Traffic}
+{{#if network_traffic}}
+\textbf{Network Requests:}
+{{#each network_traffic}}
+\begin{itemize}
+    \item \textbf{{{@key}}:} {{this}}
+\end{itemize}
+{{/each}}
+{{else}}
+No network traffic was captured during analysis.
+{{/if}}
+
+% Security Findings
+\section{Security Findings}
+
+\subsection{Critical Issues}
+{{#if critical_issues}}
+{{#each critical_issues}}
+\subsubsection{{{title}}}
+\textbf{Description:} {{description}} \\
+\textbf{Location:} {{location}} \\
+\textbf{Impact:} {{impact}} \\
+\textbf{Recommendation:} {{recommendation}}
+{{/each}}
+{{else}}
+No critical security issues were identified.
+{{/if}}
+
+\subsection{High Severity Issues}
+{{#if high_issues}}
+{{#each high_issues}}
+\subsubsection{{{title}}}
+\textbf{Description:} {{description}} \\
+\textbf{Location:} {{location}} \\
+\textbf{Impact:} {{impact}} \\
+\textbf{Recommendation:} {{recommendation}}
+{{/each}}
+{{else}}
+No high severity issues were identified.
+{{/if}}
+
+\subsection{Medium Severity Issues}
+{{#if medium_issues}}
+{{#each medium_issues}}
+\subsubsection{{{title}}}
+\textbf{Description:} {{description}} \\
+\textbf{Location:} {{location}} \\
+\textbf{Impact:} {{impact}} \\
+\textbf{Recommendation:} {{recommendation}}
+{{/each}}
+{{else}}
+No medium severity issues were identified.
+{{/if}}
+
+\subsection{Low Severity Issues}
+{{#if low_issues}}
+{{#each low_issues}}
+\subsubsection{{{title}}}
+\textbf{Description:} {{description}} \\
+\textbf{Location:} {{location}} \\
+\textbf{Impact:} {{impact}} \\
+\textbf{Recommendation:} {{recommendation}}
+{{/each}}
+{{else}}
+No low severity issues were identified.
+{{/if}}
+
+% Recommendations
+\section{Recommendations}
+
+\subsection{Immediate Actions}
+{{#if immediate_actions}}
+{{#each immediate_actions}}
+\begin{enumerate}
+    \item {{this}}
+\end{enumerate}
+{{/each}}
+{{else}}
+No immediate actions are required.
+{{/if}}
+
+\subsection{Short-term Improvements}
+{{#if short_term_improvements}}
+{{#each short_term_improvements}}
+\begin{enumerate}
+    \item {{this}}
+\end{enumerate}
+{{/each}}
+{{else}}
+No short-term improvements are recommended.
+{{/if}}
+
+\subsection{Long-term Enhancements}
+{{#if long_term_enhancements}}
+{{#each long_term_enhancements}}
+\begin{enumerate}
+    \item {{this}}
+\end{enumerate}
+{{/each}}
+{{else}}
+No long-term enhancements are recommended.
+{{/if}}
+
+% Technical Details
+\section{Technical Details}
+
+\subsection{Analysis Tools Used}
+\begin{itemize}
+    \item \textbf{APK Decompilation:} APKTool, JADX
+    \item \textbf{Static Analysis:} Quark-Engine, Androguard
+    \item \textbf{Dynamic Analysis:} Frida, Objection
+    \item \textbf{Native Analysis:} Radare2, Ghidra
+    \item \textbf{Deobfuscation:} Simplify, DeGuard
+\end{itemize}
+
+\subsection{Analysis Configuration}
+\begin{itemize}
+    \item \textbf{Parallel Jobs:} {{parallel_jobs}}
+    \item \textbf{GPU Acceleration:} {{gpu_enabled}}
+    \item \textbf{Analysis Timeout:} {{analysis_timeout}}
+    \item \textbf{Memory Limit:} {{memory_limit}}
+\end{itemize}
+
+\subsection{Performance Metrics}
+\begin{itemize}
+    \item \textbf{Total Analysis Time:} {{total_time}}
+    \item \textbf{Static Analysis Time:} {{static_time}}
+    \item \textbf{Dynamic Analysis Time:} {{dynamic_time}}
+    \item \textbf{Native Analysis Time:} {{native_time}}
+\end{itemize}
+
+% Appendix
+\section{Appendix}
+
+\subsection{Analysis Logs}
+The complete analysis logs are available in the following files:
+\begin{itemize}
+    \item \textbf{Main Log:} \texttt{logs/deobf\_{{timestamp}}.log}
+    \item \textbf{Error Log:} \texttt{logs/error\_{{timestamp}}.log}
+    \item \textbf{Retry Log:} \texttt{logs/retry\_{{timestamp}}.log}
+\end{itemize}
+
+\subsection{Generated Artifacts}
+\begin{itemize}
+    \item \textbf{Decompiled Source:} \texttt{apktool\_out/}
+    \item \textbf{Java Source:} \texttt{jadx\_out/}
+    \item \textbf{Analysis Reports:} \texttt{reports/}
+    \item \textbf{Dynamic Traces:} \texttt{dynamic\_traces/}
+\end{itemize}
+
+\subsection{Visualizations}
+{{#if visualizations}}
+\begin{itemize}
+    \item \textbf{Call Graph:} \texttt{reports/call\_graph.svg}
+    \item \textbf{UI Tree:} \texttt{reports/ui\_tree.svg}
+    \item \textbf{Dependency Graph:} \texttt{reports/dependency\_graph.svg}
+\end{itemize}
+{{else}}
+No visualizations were generated.
+{{/if}}
+
+\vspace{2cm}
+
+\begin{center}
+\textbf{Report Generated:} {{generation_timestamp}} \\
+\textbf{Analysis Version:} {{analysis_version}} \\
+\textbf{Confidentiality:} This report contains sensitive information and should be handled accordingly.
+\end{center}
+
+\end{document} 
